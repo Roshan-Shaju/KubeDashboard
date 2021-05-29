@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+ namespace: roshan
+ name: roshdb
+spec:
+ containers:
+ - image: mysql
+   name: roshdb
+   env:
+   - name: MYSQL_ROOT_PASSWORD
+     value: roshan
+   - name: MYSQL_DATABASE
+     value: roshan
+   - name: MYSQL_USER
+     value: roshan
+   - name: MYSQL_PASSWORD
+     value: roshan@1234
+

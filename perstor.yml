@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Pod
+metadata:
+ name: rmshanpvpod
+ namespace: roshan
+ labels:
+  test: rmshan
+spec:
+ volumes:
+ - name: rmshan
+   persistentVolumeClaim:
+    claimName: rmshanpvc
+ nodeName: node3
+ containers:
+ - image: busybox
+   name: buysbox
+   volumeMounts:
+   - name: rmshan
+     mountPath: /opt
+   command: ["/bin/sh", "-c" , "ping 8.8.8.8  > /opt/number.txt "]
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: rmshanpv
+  namespace: roshan
+  labels:
+   app:  rmshan
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+   path: /rmshcode
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+ name: rmshanpvc
+ namespace: roshan
+spec:
+ accessModes:
+  - ReadWriteOnce
+ resources:
+  requests:
+   storage: 1Gi
+ selector:
+  matchLabels:
+   app: rmshan
+

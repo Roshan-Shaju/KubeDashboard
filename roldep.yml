@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: roldep
+  namespace: roshan
+  name: roldep
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: roldep
+  strategy:
+    type: RollingUpdate 
+  template:
+    metadata:
+      labels:
+        app: roldep
+    spec:
+      containers:
+      - image: mdhack/myapache
+        name: myapache
+        resources: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: roldep
+  namespace: roshan
+  name: roldep
+spec:
+  ports:
+  - name: "80"
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: roldep
+  type: NodePort

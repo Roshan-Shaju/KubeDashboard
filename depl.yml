@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: test5
+  name: test5
+  namespace: roshan
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test5
+  template:
+    metadata:
+      labels:
+        app: test5
+    spec:
+      containers:
+      - image: mdhack/myserver
+        imagePullPolicy: Always
+        name: myserver
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: test5
+  name: test5
+  namespace: roshan
+spec:
+  ports:
+  - nodePort: 31038
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: test5
+  type: NodePort
